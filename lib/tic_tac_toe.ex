@@ -1,18 +1,7 @@
 defmodule TicTacToe do
-  @moduledoc """
-  Documentation for `TicTacToe`.
-  """
+  alias TicTacToe.CLI
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> TicTacToe.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  def run() do
+    CLI.welcome()
   end
 end

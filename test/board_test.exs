@@ -15,4 +15,12 @@ defmodule TicTacToe.BoardTest do
 
     assert Enum.at(updated_spaces, 3) == "X"
   end
+
+  test "validates space availability" do
+    %{spaces: spaces} = Board.new(3)
+    assert Board.space_is_available(spaces, 5)
+
+    updated_spaces = Board.update_at(spaces, 5, "O")
+    refute Board.space_is_available(updated_spaces, 5)
+  end
 end

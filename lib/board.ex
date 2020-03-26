@@ -10,4 +10,8 @@ defmodule TicTacToe.Board do
   def update_at(spaces_list, space, marker) do
     List.update_at(spaces_list, space - 1, &(&1 = marker))
   end
+
+  def space_is_available(spaces_list, space) do
+    !Enum.at(spaces_list, space - 1)
+  end
 end

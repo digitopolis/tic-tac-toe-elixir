@@ -8,4 +8,11 @@ defmodule TicTacToe.BoardTest do
     assert length(spaces) == 9
     assert Enum.all?(spaces, fn s -> s == nil end)
   end
+
+  test "updates board at given space" do
+    %{spaces: spaces} = Board.new(3)
+    updated_spaces = Board.update_at(spaces, 4, "X")
+
+    assert Enum.at(updated_spaces, 3) == "X"
+  end
 end

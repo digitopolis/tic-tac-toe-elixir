@@ -6,4 +6,8 @@ defmodule TicTacToe.Board do
   def new(size) do
     %Board{spaces: List.duplicate(nil, size * size)}
   end
+
+  def update_at(spaces_list, space, marker) do
+    List.update_at(spaces_list, space - 1, &(&1 = marker))
+  end
 end

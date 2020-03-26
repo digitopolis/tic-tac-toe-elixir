@@ -9,8 +9,8 @@ defmodule TicTacToe.PlayerTest do
   end
 
   test "player has a marker" do
-    player1 = Player.new(1)
-    player2 = Player.new(2)
+    player1 = Player.new("First", 1)
+    player2 = Player.new("Second", 2)
 
     assert player1.marker == "X"
     assert player2.marker == "O"

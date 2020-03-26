@@ -3,7 +3,7 @@ defmodule TicTacToe.Player do
 
   defstruct [:name, :marker]
 
-  def new(1), do: %Player{marker: "X"}
-  def new(2), do: %Player{marker: "O"}
+  def new(name, 1), do: %Player{name: name, marker: "X"}
+  def new(name, 2), do: %Player{name: name, marker: "O"}
 
 end

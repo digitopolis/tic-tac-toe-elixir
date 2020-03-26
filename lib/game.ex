@@ -6,9 +6,9 @@ defmodule TicTacToe.Game do
   defstruct [:board, players: []]
 
   def get_players(input \\ CLI) do
-    player1 = input.get_player_name("X")
-    player2 = input.get_player_name("O")
-    [%Player{name: player1}, %Player{name: player2}]
+    player1 = Player.new(input.get_player_name("X"), 1)
+    player2 = Player.new(input.get_player_name("O"), 2)
+    [player1, player2]
   end
 
   def add_players(game, input \\ CLI) do

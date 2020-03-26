@@ -12,4 +12,10 @@ defmodule TicTacToe.CLITest do
       IO.write CLI.get_player_name("X", &MockInput.gets/1)
     end) == "Player One"
   end
+
+  test "gets player move" do
+    assert capture_io([input: "5", capture_prompt: false], fn ->
+      IO.write CLI.get_player_move("Matt", &MockInput.gets_move/1)
+    end) == "5"
+  end
 end

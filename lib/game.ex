@@ -16,6 +16,10 @@ defmodule TicTacToe.Game do
     Map.replace!(game, :players, Game.get_players(input))
   end
 
+  def add_board(game) do
+    Map.replace!(game, :board, Board.new(3))
+  end
+
   def make_move(game, move, input \\ CLI) do
     [ current_player | _tail ] = game.players
     cond do
@@ -27,6 +31,14 @@ defmodule TicTacToe.Game do
         new_board = Board.update_at(game.board.spaces, move, current_player.marker)
         update_in(game, [Access.key(:board), Access.key(:spaces)], &(&1 = new_board))
     end
+  end
+
+  def player_turn(game) do
+    [ current_player | _tail ] = game.players
+    CLI.display_board(game.board.spaces)
+    move = CLI.get_player_move(current_player.name)
+    new_game = Game.make_move(game, move)
+    CLI.display_board(new_game.board.spaces)
   end
 
 end

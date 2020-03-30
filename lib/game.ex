@@ -12,6 +12,14 @@ defmodule TicTacToe.Game do
     [player1, player2]
   end
 
+  def current_player(game) do
+    Enum.at(game.players, 0)
+  end
+
+  def switch_players(game) do
+    update_in(game, [Access.key(:players)], &(Enum.reverse(&1)))
+  end
+
   def add_players(game, input \\ CLI) do
     Map.replace!(game, :players, Game.get_players(input))
   end

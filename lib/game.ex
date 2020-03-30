@@ -35,10 +35,10 @@ defmodule TicTacToe.Game do
 
   def player_turn(game) do
     [ current_player | _tail ] = game.players
-    CLI.display_board(game.board.spaces)
+    CLI.display_board(game.board)
     move = CLI.get_player_move(current_player.name)
     new_game = Game.make_move(game, move)
-    CLI.display_board(new_game.board.spaces)
+    CLI.display_board(new_game.board)
   end
 
 end

@@ -1,6 +1,5 @@
 defmodule TicTacToe.CLI do
   alias TicTacToe.Board
-  alias TicTacToe.CLI
 
   def welcome() do
     IO.puts "Welcome to Tic Tac Toe!"
@@ -10,18 +9,8 @@ defmodule TicTacToe.CLI do
     IO.puts message
   end
 
-  def get_display_list(spaces) do
-    for x <- [1, 2, 3, 4, 5, 6, 7, 8, 9] do
-      if Board.space_is_available(spaces, x) do
-        x
-      else
-        Enum.at(spaces, x - 1)
-      end
-    end
-  end
-
-  def display_board(spaces) do
-    display_spaces = CLI.get_display_list(spaces)
+  def display_board(board) do
+    display_spaces = Board.get_display_list(board)
     IO.write """
        #{Enum.at(display_spaces, 0)}  |  #{Enum.at(display_spaces, 1)}  |  #{Enum.at(display_spaces, 2)}
       ----+-----+----

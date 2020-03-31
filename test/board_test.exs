@@ -10,17 +10,17 @@ defmodule TicTacToe.BoardTest do
   end
 
   test "updates board at given space" do
-    %{spaces: spaces} = Board.new(3)
-    updated_spaces = Board.update_at(spaces, 4, "X")
+    board = Board.new(3)
+    updated_board = Board.update_at(board, 4, "X")
 
-    assert Enum.at(updated_spaces, 3) == "X"
+    assert Enum.at(updated_board.spaces, 3) == "X"
   end
 
   test "validates space availability" do
-    %{spaces: spaces} = Board.new(3)
-    assert Board.space_is_available(spaces, 5)
+    board = Board.new(3)
+    assert Board.space_is_available(board.spaces, 5)
 
-    updated_spaces = Board.update_at(spaces, 5, "O")
-    refute Board.space_is_available(updated_spaces, 5)
+    updated_board = Board.update_at(board, 5, "O")
+    refute Board.space_is_available(updated_board.spaces, 5)
   end
 end

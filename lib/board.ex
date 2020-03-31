@@ -21,8 +21,9 @@ defmodule TicTacToe.Board do
     end
   end
 
-  def update_at(spaces_list, space, marker) do
-    List.update_at(spaces_list, space - 1, &(&1 = marker))
+  def update_at(board, space, marker) do
+    updated_spaces = List.update_at(board.spaces, space - 1, &(&1 = marker))
+    Map.replace!(board, :spaces, updated_spaces)
   end
 
   def space_is_available(spaces_list, space) do

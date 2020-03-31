@@ -29,7 +29,7 @@ defmodule TicTacToe.Game do
   end
 
   def update(board, game) do
-    update_in(game, [Access.key(:board), Access.key(:spaces)], &(&1 = board))
+    Map.replace!(game, :board, board)
   end
 
   def next_move(game) do
@@ -45,7 +45,7 @@ defmodule TicTacToe.Game do
 
   def make_move(move, game) do
     { current_player, board } = { Game.current_player(game), game.board }
-    Board.update_at(board.spaces, move, current_player.marker)
+    Board.update_at(board, move, current_player.marker)
       |> Game.update(game)
   end
 

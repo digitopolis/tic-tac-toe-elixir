@@ -7,6 +7,6 @@ defmodule TicTacToe do
     game = %Game{}
       |> Game.add_players
       |> Game.add_board
-      |> Game.player_turn
+      |> Game.play
   end
 end

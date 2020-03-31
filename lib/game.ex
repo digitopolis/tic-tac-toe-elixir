@@ -32,6 +32,11 @@ defmodule TicTacToe.Game do
     Map.replace!(game, :board, board)
   end
 
+  def show_board(game) do
+    CLI.display_board(game.board)
+    game
+  end
+
   def next_move(game) do
     Game.current_player(game)
       |> CLI.get_player_move
@@ -50,9 +55,17 @@ defmodule TicTacToe.Game do
   end
 
   def player_turn(game) do
-    CLI.display_board(game.board)
-    game = Game.next_move(game)
-    CLI.display_board(game.board)
+    game
+      |> Game.show_board
+      |> Game.next_move
+      |> Game.show_board
+  end
+
+  def play(game) do
+    game
+      |> Game.player_turn
+      |> Game.switch_players
+      |> Game.play
   end
 
 end

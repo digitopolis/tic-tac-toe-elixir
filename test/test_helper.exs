@@ -7,4 +7,6 @@ defmodule MockInput do
   def get_player_name("X"), do: "First"
   def get_player_name("O"), do: "Second"
 
+  def gets_move(_prompt), do: "5"
+
 end

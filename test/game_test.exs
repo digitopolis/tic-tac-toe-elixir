@@ -16,4 +16,12 @@ defmodule TicTacToe.GameTest do
     assert length(updated_game.players) == 2
   end
 
+  test "game alternates current player" do
+    game = %Game{}
+    new_game = Game.add_players(game, MockInput)
+    assert Game.current_player(new_game).name == "First"
+
+    game = Game.switch_players(new_game)
+    assert Game.current_player(game).name == "Second"
+  end
 end

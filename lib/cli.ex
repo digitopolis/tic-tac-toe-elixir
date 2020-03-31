@@ -25,8 +25,8 @@ defmodule TicTacToe.CLI do
       |> String.trim()
   end
 
-  def get_player_move(name, gets \\ &IO.gets/1) do
-    gets.("#{name}, please select a space:\n")
+  def get_player_move(player, gets \\ &IO.gets/1) do
+    gets.("#{player.name}, please select a space:\n")
       |> String.trim()
       |> String.to_integer()
   end

@@ -28,14 +28,31 @@ defmodule TicTacToe.Game do
     Map.replace!(game, :board, Board.new(3))
   end
 
+  def update(board, game) do
+    update_in(game, [Access.key(:board), Access.key(:spaces)], &(&1 = board))
+  end
+
+  def next_move(game) do
+    Game.current_player(game)
+      |> CLI.get_player_move
+      |> Board.validate_move(game.board)
+      |> Game.make_move(game)
+  end
+
+  def make_move(-1, game) do
+    Game.next_move(game)
+  end
+
+  def make_move(move, game) do
+    { current_player, board } = { Game.current_player(game), game.board }
+    Board.update_at(board.spaces, move, current_player.marker)
+      |> Game.update(game)
   end
 
   def player_turn(game) do
-    [ current_player | _tail ] = game.players
     CLI.display_board(game.board)
-    move = CLI.get_player_move(current_player.name)
-    new_game = Game.make_move(game, move)
-    CLI.display_board(new_game.board)
+    game = Game.next_move(game)
+    CLI.display_board(game.board)
   end
 
 end

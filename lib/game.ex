@@ -28,17 +28,6 @@ defmodule TicTacToe.Game do
     Map.replace!(game, :board, Board.new(3))
   end
 
-  def make_move(game, move, input \\ CLI) do
-    [ current_player | _tail ] = game.players
-    cond do
-      !Board.space_is_available(game.board.spaces, move) ->
-        input.print "That space isn't available, please choose an open space between 1 and #{length(game.board.spaces)}"
-        new_move = input.get_player_move(current_player.name)
-        make_move(game, new_move, input)
-      Board.space_is_available(game.board.spaces, move) ->
-        new_board = Board.update_at(game.board.spaces, move, current_player.marker)
-        update_in(game, [Access.key(:board), Access.key(:spaces)], &(&1 = new_board))
-    end
   end
 
   def player_turn(game) do

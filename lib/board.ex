@@ -2,10 +2,10 @@ defmodule TicTacToe.Board do
   alias TicTacToe.Board
   alias TicTacToe.CLI
 
-  defstruct [:spaces]
+  defstruct [:spaces, :row_length]
 
   def new(size) do
-    %Board{spaces: List.duplicate(nil, size * size)}
+    %Board{ spaces: List.duplicate(nil, size * size), row_length: size }
   end
 
   def size(board) do
@@ -14,7 +14,7 @@ defmodule TicTacToe.Board do
 
   def validate_move(move, board) do
     cond do
-      move <= 0 || move > Board.size(board) ->
+      move <= 0 || move > Board.size(board) || !Board.space_is_available(board.spaces, move) ->
         CLI.print "Please select an available space between 1-#{Board.size(board)}"
         -1
       Board.space_is_available(board.spaces, move) -> move
@@ -38,5 +38,27 @@ defmodule TicTacToe.Board do
         Enum.at(board.spaces, x - 1)
       end
     end
+  end
+
+  def get_rows(board) do
+    Board.get_display_list(board)
+      |> Enum.chunk_every(board.row_length)
+  end
+
+  def get_columns(rows) do
+    rows
+      |> Enum.zip
+      |> Enum.map(&Tuple.to_list/1)
+  end
+
+  def get_down_diagonal(rows) do
+    rows
+      |> Enum.with_index
+      |> Enum.map(fn { row, index } -> Enum.at(row, index) end)
+  end
+  def get_up_diagonal(rows) do
+    rows
+      |> Enum.reverse
+      |> Board.get_down_diagonal
   end
 end

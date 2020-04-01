@@ -12,11 +12,13 @@ defmodule TicTacToe.CLI do
   def display_board(board) do
     display_spaces = Board.get_display_list(board)
     IO.write """
+
        #{Enum.at(display_spaces, 0)}  |  #{Enum.at(display_spaces, 1)}  |  #{Enum.at(display_spaces, 2)}
       ----+-----+----
        #{Enum.at(display_spaces, 3)}  |  #{Enum.at(display_spaces, 4)}  |  #{Enum.at(display_spaces, 5)}
       ----+-----+----
        #{Enum.at(display_spaces, 6)}  |  #{Enum.at(display_spaces, 7)}  |  #{Enum.at(display_spaces, 8)}
+       
       """
   end
 

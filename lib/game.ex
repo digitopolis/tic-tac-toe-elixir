@@ -58,7 +58,6 @@ defmodule TicTacToe.Game do
     game
       |> Game.show_board
       |> Game.next_move
-      |> Game.show_board
   end
 
   def play(game) do

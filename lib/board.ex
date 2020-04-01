@@ -30,6 +30,10 @@ defmodule TicTacToe.Board do
     !Enum.at(spaces_list, space - 1)
   end
 
+  def is_full?(board) do
+    Enum.all?(board.spaces)
+  end
+
   def get_display_list(board) do
     for x <- [1, 2, 3, 4, 5, 6, 7, 8, 9] do
       if Board.space_is_available(board.spaces, x) do

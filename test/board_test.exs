@@ -59,4 +59,15 @@ defmodule TicTacToe.BoardTest do
     up_diagonal = Board.get_up_diagonal(rows)
     assert diagonal == up_diagonal
   end
+
+  test "determines if board is full" do
+    empty_board = Board.new(3)
+    refute Board.is_full?(empty_board)
+
+    full_board = %Board{ spaces: ["X", "O", "X", "X", "O", "X", "X", "O", "X"], row_length: 3 }
+    assert Board.is_full?(full_board)
+
+    partial_board = %Board{ spaces: ["X", nil, "X", nil, "O", nil, nil, "O", "X"], row_length: 3 }
+    refute Board.is_full?(partial_board)
+  end
 end

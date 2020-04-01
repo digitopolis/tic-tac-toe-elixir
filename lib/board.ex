@@ -34,6 +34,15 @@ defmodule TicTacToe.Board do
     Enum.all?(board.spaces)
   end
 
+  def has_winning_combo?(board) do
+    rows = Board.get_rows(board)
+    (rows ++
+      TicTacToe.Board.get_columns(rows) ++
+      [TicTacToe.Board.get_down_diagonal(rows)] ++
+      [TicTacToe.Board.get_up_diagonal(rows)])
+        |> Enum.any?(fn line -> Enum.all?(line, fn x -> x == Enum.at(line, 0) end) end)
+  end
+
   def get_display_list(board) do
     for x <- [1, 2, 3, 4, 5, 6, 7, 8, 9] do
       if Board.space_is_available(board.spaces, x) do

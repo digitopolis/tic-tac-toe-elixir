@@ -70,4 +70,12 @@ defmodule TicTacToe.BoardTest do
     partial_board = %Board{ spaces: ["X", nil, "X", nil, "O", nil, nil, "O", "X"], row_length: 3 }
     refute Board.is_full?(partial_board)
   end
+
+  test "finds winning combination" do
+    winning_board = %Board{ spaces: ["X", "X", "X", nil, nil, nil, nil, nil, nil], row_length: 3 }
+    assert Board.has_winning_combo?(winning_board)
+
+    partial_board = %Board{ spaces: ["X", nil, "X", nil, "O", nil, nil, "O", "X"], row_length: 3 }
+    refute Board.has_winning_combo?(partial_board)
+  end
 end

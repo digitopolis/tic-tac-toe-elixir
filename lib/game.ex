@@ -4,7 +4,7 @@ defmodule TicTacToe.Game do
   alias TicTacToe.Game
   alias TicTacToe.Board
 
-  defstruct [:board, players: []]
+  defstruct [:board, players: [], status: :in_play]
 
   def get_players(input \\ CLI) do
     player1 = Player.new(input.get_player_name("X"), 1)
@@ -16,6 +16,9 @@ defmodule TicTacToe.Game do
     Enum.at(game.players, 0)
   end
 
+  def switch_players(%Game{status: status} = game) when status == :win do
+    game
+  end
   def switch_players(game) do
     update_in(game, [Access.key(:players)], &(Enum.reverse(&1)))
   end
@@ -30,6 +33,11 @@ defmodule TicTacToe.Game do
 
   def update(board, game) do
     Map.replace!(game, :board, board)
+  end
+
+  def show_board(game) do
+    CLI.display_board(game.board)
+    game
   end
 
   def next_move(game) do
@@ -49,10 +57,45 @@ defmodule TicTacToe.Game do
       |> Game.update(game)
   end
 
+  def check_status(%Game{board: board} = game) do
+    status = cond do
+      Board.has_winning_combo?(board) -> :win
+      Board.is_full?(board) -> :draw
+      true -> :in_play
+    end
+    Map.replace!(game, :status, status)
+  end
+
   def player_turn(game) do
-    CLI.display_board(game.board)
-    game = Game.next_move(game)
-    CLI.display_board(game.board)
+    game
+      |> Game.show_board
+      |> Game.next_move
+  end
+
+  def play(%Game{status: status} = game) when status == :win do
+    player = Game.current_player(game)
+    CLI.print "#{player.name} wins!"
+    Game.end_game()
+  end
+
+  def play(%Game{status: status}) when status == :draw do
+    CLI.print "Game over - it's a draw."
+    Game.end_game()
+  end
+
+  def play(game) do
+    game
+      |> Game.player_turn
+      |> Game.check_status
+      |> Game.switch_players
+      |> Game.play
+  end
+
+  def end_game("Y"), do: TicTacToe.play()
+  def end_game("N"), do: CLI.print "Thanks for playing!"
+  def end_game() do
+    CLI.get_end_game_selection()
+      |> Game.end_game
   end
 
 end

@@ -18,7 +18,7 @@ defmodule TicTacToe.CLI do
        #{Enum.at(display_spaces, 3)}  |  #{Enum.at(display_spaces, 4)}  |  #{Enum.at(display_spaces, 5)}
       ----+-----+----
        #{Enum.at(display_spaces, 6)}  |  #{Enum.at(display_spaces, 7)}  |  #{Enum.at(display_spaces, 8)}
-       
+
       """
   end
 
@@ -31,5 +31,11 @@ defmodule TicTacToe.CLI do
     gets.("#{player.name}, please select a space:\n")
       |> String.trim()
       |> String.to_integer()
+  end
+
+  def get_end_game_selection() do
+    IO.gets("Would you like to play again? Y/N:\n")
+      |> String.trim()
+      |> String.upcase()
   end
 end

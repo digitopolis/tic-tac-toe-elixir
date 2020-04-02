@@ -75,6 +75,12 @@ defmodule TicTacToe.Game do
   def play(%Game{status: status} = game) when status == :win do
     player = Game.current_player(game)
     CLI.print "#{player.name} wins!"
+    Game.end_game()
+  end
+
+  def play(%Game{status: status}) when status == :draw do
+    CLI.print "Game over - it's a draw."
+    Game.end_game()
   end
 
   def play(game) do
@@ -83,6 +89,13 @@ defmodule TicTacToe.Game do
       |> Game.check_status
       |> Game.switch_players
       |> Game.play
+  end
+
+  def end_game("Y"), do: TicTacToe.play()
+  def end_game("N"), do: CLI.print "Thanks for playing!"
+  def end_game() do
+    CLI.get_end_game_selection()
+      |> Game.end_game
   end
 
 end

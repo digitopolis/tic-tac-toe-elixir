@@ -16,6 +16,9 @@ defmodule TicTacToe.Game do
     Enum.at(game.players, 0)
   end
 
+  def switch_players(%Game{status: status} = game) when status == :win do
+    game
+  end
   def switch_players(game) do
     update_in(game, [Access.key(:players)], &(Enum.reverse(&1)))
   end
@@ -69,9 +72,15 @@ defmodule TicTacToe.Game do
       |> Game.next_move
   end
 
+  def play(%Game{status: status} = game) when status == :win do
+    player = Game.current_player(game)
+    CLI.print "#{player.name} wins!"
+  end
+
   def play(game) do
     game
       |> Game.player_turn
+      |> Game.check_status
       |> Game.switch_players
       |> Game.play
   end

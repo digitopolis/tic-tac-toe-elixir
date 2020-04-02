@@ -4,7 +4,7 @@ defmodule TicTacToe.Game do
   alias TicTacToe.Game
   alias TicTacToe.Board
 
-  defstruct [:board, players: []]
+  defstruct [:board, players: [], status: :in_play]
 
   def get_players(input \\ CLI) do
     player1 = Player.new(input.get_player_name("X"), 1)
@@ -52,6 +52,15 @@ defmodule TicTacToe.Game do
     { current_player, board } = { Game.current_player(game), game.board }
     Board.update_at(board, move, current_player.marker)
       |> Game.update(game)
+  end
+
+  def check_status(%Game{board: board} = game) do
+    status = cond do
+      Board.has_winning_combo?(board) -> :win
+      Board.is_full?(board) -> :draw
+      true -> :in_play
+    end
+    Map.replace!(game, :status, status)
   end
 
   def player_turn(game) do

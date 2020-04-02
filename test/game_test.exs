@@ -24,4 +24,18 @@ defmodule TicTacToe.GameTest do
     game = Game.switch_players(new_game)
     assert Game.current_player(game).name == "Second"
   end
+
+  test "game determines state" do
+    new_game = %Game{board: Board.new(3)}
+    result = Game.check_status(new_game)
+    assert result.status == :in_play
+
+    winning_game = %Game{board: %Board{ spaces: ["X", "X", "X", nil, nil, nil, nil, nil, nil], row_length: 3 }}
+    result = Game.check_status(winning_game)
+    assert result.status == :win
+
+    draw_game = %Game{board: %Board{ spaces: ["X", "O", "X", "O", "O", "X", "X", "X", "O"], row_length: 3 }}
+    result = Game.check_status(draw_game)
+    assert result.status == :draw
+  end
 end

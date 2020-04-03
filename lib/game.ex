@@ -41,7 +41,7 @@ defmodule TicTacToe.Game do
 
   def next_move(game) do
     Game.current_player(game)
-      |> CLI.get_player_move
+      |> CLI.get_player_move(game.board)
       |> Board.validate_move(game.board)
       |> Game.make_move(game)
   end

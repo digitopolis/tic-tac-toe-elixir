@@ -30,6 +30,11 @@ defmodule TicTacToe.CLI do
       |> String.to_integer
   end
 
+  def display_players(players) do
+    [{ firstName, firstWins }, { secondName, secondWins }] = players
+    print "It's #{firstName} (wins: #{firstWins}) against #{secondName} (wins: #{secondWins})!"
+  end
+
   def get_player_name(marker, gets \\ &IO.gets/1) do
     gets.("Player #{marker}, please enter your name:\n")
       |> String.trim()

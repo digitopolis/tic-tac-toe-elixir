@@ -9,6 +9,7 @@ defmodule TicTacToe.Game do
   def get_players(input \\ CLI) do
     input.get_number_of_players()
       |> Player.player_list(input)
+      |> Player.login_players
   end
 
   def current_player(game) do

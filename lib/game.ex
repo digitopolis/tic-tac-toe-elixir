@@ -39,6 +39,12 @@ defmodule TicTacToe.Game do
     game
   end
 
+  def show_players(game) do
+    players = for p <- game.players, do: { p.name, p.wins }
+    CLI.display_players(players)
+    game
+  end
+
   def next_move(game) do
     Game.current_player(game)
       |> CLI.get_player_move(game.board)

@@ -3,6 +3,7 @@ defmodule TicTacToe.Game do
   alias TicTacToe.Player
   alias TicTacToe.Game
   alias TicTacToe.Board
+  alias TicTacToe.Database
 
   defstruct [:board, players: [], status: :in_play]
 
@@ -81,6 +82,7 @@ defmodule TicTacToe.Game do
   def play(%Game{status: status} = game) when status == :win do
     player = Game.current_player(game)
     CLI.print "#{player.name} wins!"
+    Database.add_win(player.name)
     Game.end_game()
   end
 

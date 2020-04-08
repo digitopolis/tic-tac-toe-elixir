@@ -6,4 +6,9 @@ defmodule TicTacToe.User do
     field :wins, :integer
   end
 
+  def changeset(user, params \\ %{}) do
+    user
+      |> Ecto.Changeset.cast(params, [:wins])
+  end
+
 end

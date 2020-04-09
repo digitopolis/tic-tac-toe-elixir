@@ -4,6 +4,7 @@ defmodule TicTacToe.User do
   schema "users" do
     field :name, :string
     field :wins, :integer
+    has_one :save, TicTacToe.Save
   end
 
   def changeset(user, params \\ %{}) do

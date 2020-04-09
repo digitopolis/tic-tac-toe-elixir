@@ -17,7 +17,7 @@ defmodule TicTacToe.Game do
     Enum.at(game.players, 0)
   end
 
-  def switch_players(%Game{status: status} = game) when status == :win do
+  def switch_players(%Game{status: status} = game) when status == :win or status == :save do
     game
   end
   def switch_players(game) do
@@ -58,12 +58,19 @@ defmodule TicTacToe.Game do
     Game.next_move(game)
   end
 
+  def make_move(:save, game) do
+    Map.replace!(game, :status, :save)
+  end
+
   def make_move(move, game) do
     { current_player, board } = { Game.current_player(game), game.board }
     Board.update_at(board, move, current_player.marker)
       |> Game.update(game)
   end
 
+  def check_status(%Game{status: status} = game) when status == :save do
+    game
+  end
   def check_status(%Game{board: board} = game) do
     status = cond do
       Board.has_winning_combo?(board) -> :win
@@ -91,12 +98,23 @@ defmodule TicTacToe.Game do
     Game.end_game()
   end
 
+  def play(%Game{status: status} = game) when status == :save do
+    CLI.print "Saving . . ."
+    Game.save_game(game)
+  end
+
   def play(game) do
     game
       |> Game.player_turn
       |> Game.check_status
       |> Game.switch_players
       |> Game.play
+  end
+
+  def save_game(game) do
+    { current_player, board } = { Game.current_player(game), game.board }
+    Database.save_game(current_player.name, board.spaces)
+    Game.end_game()
   end
 
   def end_game("Y"), do: TicTacToe.play()

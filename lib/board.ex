@@ -12,6 +12,9 @@ defmodule TicTacToe.Board do
     length(board.spaces)
   end
 
+  def validate_move(:save, _board) do
+    :save
+  end
   def validate_move(move, board) do
     cond do
       move <= 0 || move > Board.size(board) || !Board.space_is_available(board.spaces, move) ->

@@ -45,10 +45,16 @@ defmodule TicTacToe.CLI do
   end
 
   def get_player_move(player, _board, gets \\ &IO.gets/1) do
-    gets.("#{player.name}, please select a space:\n")
-      |> String.trim()
-      |> String.to_integer()
+    gets.("#{player.name}, please select a space (or enter 'S' to save and quit):\n")
+      |> String.trim
+      |> String.upcase
+      |> handle_input
   end
+
+  def handle_input("S") do
+    :save
+  end
+  def handle_input(number), do: String.to_integer(number)
 
   def get_end_game_selection() do
     IO.gets("Would you like to play again? Y/N:\n")

@@ -42,4 +42,9 @@ defmodule TicTacToe.Database do
         CLI.print "Game saved"
     end
   end
+
+  def load_game(name) do
+    user = get_player(name)
+    user.save.spaces
+  end
 end

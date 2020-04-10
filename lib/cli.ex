@@ -56,6 +56,12 @@ defmodule TicTacToe.CLI do
   end
   def handle_input(number), do: String.to_integer(number)
 
+  def new_game_or_load(name) do
+    IO.gets("Player 1 (#{name}), enter 'L' to load your previous game, or 'N' to start a new one:\n")
+      |> String.trim
+      |> String.upcase
+  end
+
   def get_end_game_selection() do
     IO.gets("Would you like to play again? Y/N:\n")
       |> String.trim()

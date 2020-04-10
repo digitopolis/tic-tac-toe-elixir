@@ -29,7 +29,12 @@ defmodule TicTacToe.Game do
   end
 
   def add_board(game) do
-    Map.replace!(game, :board, Board.new(3))
+    player_one = Game.current_player(game).name
+    case CLI.new_game_or_load(player_one) do
+      "L" -> Map.replace!(game, :board, %Board{spaces: Database.load_game(player_one), row_length: 3})
+      "N" -> Map.replace!(game, :board, Board.new(3))
+      _   -> add_board(game)
+    end
   end
 
   def update(board, game) do

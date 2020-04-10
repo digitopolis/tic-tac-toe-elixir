@@ -7,9 +7,8 @@ defmodule TicTacToe.Game do
   defstruct [:board, players: [], status: :in_play]
 
   def get_players(input \\ CLI) do
-    player1 = Player.new(input.get_player_name("X"), 1)
-    player2 = Player.new(input.get_player_name("O"), 2)
-    [player1, player2]
+    input.get_number_of_players()
+      |> Player.player_list(input)
   end
 
   def current_player(game) do
@@ -42,7 +41,7 @@ defmodule TicTacToe.Game do
 
   def next_move(game) do
     Game.current_player(game)
-      |> CLI.get_player_move
+      |> CLI.get_player_move(game.board)
       |> Board.validate_move(game.board)
       |> Game.make_move(game)
   end

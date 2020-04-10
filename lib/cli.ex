@@ -1,5 +1,7 @@
 defmodule TicTacToe.CLI do
   alias TicTacToe.Board
+  alias TicTacToe.Player
+  alias TicTacToe.ComputerPlayer
 
   def welcome() do
     IO.puts "Welcome to Tic Tac Toe!"
@@ -22,12 +24,22 @@ defmodule TicTacToe.CLI do
       """
   end
 
+  def get_number_of_players() do
+    IO.gets("Please enter the number of players (1 or 2)")
+      |> String.trim
+      |> String.to_integer
+  end
+
   def get_player_name(marker, gets \\ &IO.gets/1) do
     gets.("Player #{marker}, please enter your name:\n")
       |> String.trim()
   end
 
-  def get_player_move(player, gets \\ &IO.gets/1) do
+  def get_player_move(%Player{computer: computer}, board, _gets) when computer == true do
+    ComputerPlayer.random_move(board)
+  end
+
+  def get_player_move(player, _board, gets \\ &IO.gets/1) do
     gets.("#{player.name}, please select a space:\n")
       |> String.trim()
       |> String.to_integer()

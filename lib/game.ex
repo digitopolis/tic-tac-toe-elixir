@@ -118,7 +118,8 @@ defmodule TicTacToe.Game do
 
   def save_game(game) do
     { current_player, board } = { Game.current_player(game), game.board }
-    Database.save_game(current_player.name, board.spaces)
+    Board.save_spaces(board.spaces, current_player.marker)
+      |> Database.save_game(current_player.name)
     Game.end_game()
   end
 

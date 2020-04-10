@@ -30,7 +30,7 @@ defmodule TicTacToe.Database do
     CLI.print "Game saved"
   end
 
-  def save_game(name, spaces) do
+  def save_game(spaces, name) do
     user = get_player(name)
     save = %Save{ user_id: user.id, spaces: spaces }
     cond do

@@ -56,6 +56,17 @@ defmodule TicTacToe.Board do
     end
   end
 
+  def save_spaces(spaces, "X"), do: spaces
+  def save_spaces(spaces, "O") do
+    Enum.map(spaces, fn x ->
+      case x do
+        "X" -> "O"
+        "O" -> "X"
+        _   -> nil
+      end
+    end)
+  end
+
   def get_rows(board) do
     Board.get_display_list(board)
       |> Enum.chunk_every(board.row_length)

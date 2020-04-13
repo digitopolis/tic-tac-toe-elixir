@@ -9,4 +9,8 @@ defmodule MockInput do
 
   def gets_move(_prompt), do: "5"
 
+  def get_number_of_players do
+    2
+  end
+
 end

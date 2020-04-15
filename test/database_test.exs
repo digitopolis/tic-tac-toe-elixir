@@ -30,6 +30,13 @@ defmodule TicTacToe.DatabaseTest do
     assert Enum.at(matt.save.spaces, 0) == Enum.at(board, 0)
   end
 
+  test "loads saved game board" do
+    matt = Database.get_player("Matt")
+    saved_board = Database.load_game("Matt")
+
+    assert matt.save.spaces == saved_board
+  end
+
   test "increments win total" do
     matt = Database.get_player("Matt")
     start = matt.wins
@@ -38,5 +45,4 @@ defmodule TicTacToe.DatabaseTest do
 
     assert updated_matt.wins == start + 1
   end
-
 end

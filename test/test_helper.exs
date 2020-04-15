@@ -16,7 +16,7 @@ defmodule MockInput do
 end
 
 defmodule TicTacToe.MockUser do
-  def changeset(user, params \\ %{}) do
+  def changeset(user, _params \\ %{}) do
     %{user | wins: user.wins + 1}
   end
 end
@@ -45,7 +45,7 @@ defmodule TicTacToe.MockRepo do
     %TicTacToe.User{
       id: 2,
       name: "Matty",
-      save: nil,
+      save: ["X", nil, "O", nil, "X", nil, nil, nil, nil],
       wins: 6
     },
     %TicTacToe.User{

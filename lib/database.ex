@@ -43,8 +43,8 @@ defmodule TicTacToe.Database do
     end
   end
 
-  def load_game(name) do
-    user = get_player(name)
-    user.save.spaces
+  def load_game(name, user \\ User, repo \\ Repo) do
+    player = get_player(name, user, repo)
+    player.save.spaces
   end
 end

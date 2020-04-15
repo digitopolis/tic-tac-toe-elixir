@@ -28,6 +28,12 @@ defmodule TicTacToe.MockDatabaseTest do
     end) =~ "Game saved"
   end
 
+  test "loads saved game from mock db" do
+    matty = Database.get_player("Matty", User, MockRepo)
+
+    assert matty.save == ["X", nil, "O", nil, "X", nil, nil, nil, nil]
+  end
+
   test "updates player wins in mock db" do
     matt = Database.get_player("Matt", User, MockRepo)
     assert capture_io(fn ->

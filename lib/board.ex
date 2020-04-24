@@ -12,6 +12,9 @@ defmodule TicTacToe.Board do
     length(board.spaces)
   end
 
+  def validate_move(:save, _board) do
+    :save
+  end
   def validate_move(move, board) do
     cond do
       move <= 0 || move > Board.size(board) || !Board.space_is_available(board.spaces, move) ->
@@ -51,6 +54,17 @@ defmodule TicTacToe.Board do
         Enum.at(board.spaces, x - 1)
       end
     end
+  end
+
+  def save_spaces(spaces, "X"), do: spaces
+  def save_spaces(spaces, "O") do
+    Enum.map(spaces, fn x ->
+      case x do
+        "X" -> "O"
+        "O" -> "X"
+        _   -> nil
+      end
+    end)
   end
 
   def get_rows(board) do

@@ -3,19 +3,21 @@ defmodule TicTacToe.Game do
   alias TicTacToe.Player
   alias TicTacToe.Game
   alias TicTacToe.Board
+  alias TicTacToe.Database
 
   defstruct [:board, players: [], status: :in_play]
 
   def get_players(input \\ CLI) do
     input.get_number_of_players()
       |> Player.player_list(input)
+      |> Player.login_players
   end
 
   def current_player(game) do
     Enum.at(game.players, 0)
   end
 
-  def switch_players(%Game{status: status} = game) when status == :win do
+  def switch_players(%Game{status: status} = game) when status == :win or status == :save do
     game
   end
   def switch_players(game) do
@@ -27,7 +29,12 @@ defmodule TicTacToe.Game do
   end
 
   def add_board(game) do
-    Map.replace!(game, :board, Board.new(3))
+    player_one = Game.current_player(game).name
+    case CLI.new_game_or_load(player_one) do
+      "L" -> Map.replace!(game, :board, %Board{spaces: Database.load_game(player_one), row_length: 3})
+      "N" -> Map.replace!(game, :board, Board.new(3))
+      _   -> add_board(game)
+    end
   end
 
   def update(board, game) do
@@ -36,6 +43,12 @@ defmodule TicTacToe.Game do
 
   def show_board(game) do
     CLI.display_board(game.board)
+    game
+  end
+
+  def show_players(game) do
+    players = for p <- game.players, do: { p.name, p.wins }
+    CLI.display_players(players)
     game
   end
 
@@ -50,12 +63,19 @@ defmodule TicTacToe.Game do
     Game.next_move(game)
   end
 
+  def make_move(:save, game) do
+    Map.replace!(game, :status, :save)
+  end
+
   def make_move(move, game) do
     { current_player, board } = { Game.current_player(game), game.board }
     Board.update_at(board, move, current_player.marker)
       |> Game.update(game)
   end
 
+  def check_status(%Game{status: status} = game) when status == :save do
+    game
+  end
   def check_status(%Game{board: board} = game) do
     status = cond do
       Board.has_winning_combo?(board) -> :win
@@ -74,6 +94,7 @@ defmodule TicTacToe.Game do
   def play(%Game{status: status} = game) when status == :win do
     player = Game.current_player(game)
     CLI.print "#{player.name} wins!"
+    Database.add_win(player.name)
     Game.end_game()
   end
 
@@ -82,12 +103,24 @@ defmodule TicTacToe.Game do
     Game.end_game()
   end
 
+  def play(%Game{status: status} = game) when status == :save do
+    CLI.print "Saving . . ."
+    Game.save_game(game)
+  end
+
   def play(game) do
     game
       |> Game.player_turn
       |> Game.check_status
       |> Game.switch_players
       |> Game.play
+  end
+
+  def save_game(game) do
+    { current_player, board } = { Game.current_player(game), game.board }
+    Board.save_spaces(board.spaces, current_player.marker)
+      |> Database.save_game(current_player.name)
+    Game.end_game()
   end
 
   def end_game("Y"), do: TicTacToe.play()

@@ -12,6 +12,7 @@ defmodule TicTacToe do
     game = %Game{}
       |> Game.add_players
       |> Game.add_board
+      |> Game.show_players
       |> Game.play
   end
 end
